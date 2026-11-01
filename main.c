@@ -162,24 +162,20 @@ void	print_group(char *dict, char *num)
 	}
 	if (len >= 2 && num[len - 2] != '0')
 	{
-		if (num[len - 2] == '1')
-		{
-			key = malloc(3);
-			if (!key)
-				return ;
-			key[0] = num[len - 2];
-			key[1] = num[len - 1];
-			key[2] = '\0';
-			print_val(find_key(dict, key));
-			free(key);
-			return ;
-		}
 		key = malloc(3);
 		if (!key)
 			return ;
 		key[0] = num[len - 2];
-		key[1] = '0';
+		key[1] = num[len - 1];
 		key[2] = '\0';
+		value = find_key(dict, key);
+		if (value)
+		{
+			print_val(value);
+			free(key);
+			return ;
+		}
+		key[1] = '0';
 		print_val(find_key(dict, key));
 		free(key);
 	}
@@ -189,6 +185,18 @@ void	print_group(char *dict, char *num)
 		digit[1] = '\0';
 		print_val(find_key(dict, digit));
 	}
+}
+
+int	is_power(char *num)
+{
+	int	i;
+
+	if (num[0] != '1')
+		return (0);
+	i = 1;
+	while (num[i] == '0')
+		i++;
+	return (num[i] == '\0');
 }
 
 void	construct(char *dict, char *num)
@@ -204,7 +212,7 @@ void	construct(char *dict, char *num)
 	if (num[0] == '0')
 		return ;
 	len = count(num);
-	if (len > 3)
+	if (len > 3 && !is_power(num))
 	{
 		value = find_key(dict, num);
 		if (value)
