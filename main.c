@@ -3,20 +3,25 @@
 int	main(int argc, char **argv)
 {
 	char	*dict;
-	int		size;
+	char	*path;
+	char	*num;
 
-	if (argc != 3)
+	if (argc != 2 && argc != 3)
 		return (1);
-	size = get_size(argv[1]);
-	if (size < 0)
-		return (1);
-	dict = cr_str(argv[1], size);
+	num = argv[argc - 1];
+	path = "numbers.dict";
+	if (argc == 3)
+		path = argv[1];
+	if (!valid_number(num))
+		return (write(1, "Error\n", 6), 1);
+	dict = load_dict(path, count(skip_zeroes(num)));
 	if (!dict)
-		return (1);
-	if (skip_zeroes(argv[2])[0] == '0')
+		return (write(1, "Dict Error\n", 11), 1);
+	if (skip_zeroes(num)[0] == '0')
 		print_val(find_key(dict, "0"));
 	else
-		construct(dict, argv[2]);
+		construct(dict, num);
+	write(1, "\n", 1);
 	free(dict);
 	return (0);
 }

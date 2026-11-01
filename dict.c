@@ -40,13 +40,18 @@ char	*find_key(char *dict, char *key)
 
 void	print_val(char *str)
 {
+	static int	started;
+	int			len;
+
 	if (!str)
 		return ;
-	while (*str && *str != '\n')
-	{
-		if (*str >= 33 && *str <= 126)
-			write(1, str, 1);
-		str++;
-	}
-	write(1, " ", 1);
+	len = 0;
+	while (str[len] && str[len] != '\n')
+		len++;
+	while (len > 0 && (str[len - 1] == ' ' || str[len - 1] == '\r'))
+		len--;
+	if (started)
+		write(1, " ", 1);
+	started = 1;
+	write(1, str, len);
 }

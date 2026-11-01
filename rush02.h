@@ -7,6 +7,13 @@
 
 int		get_size(char *path);
 char	*cr_str(char *path, int size);
+char	*load_dict(char *path, int len);
+int		valid_number(char *num);
+int		line_len(char *line);
+int		valid_format(char *dict);
+int		has_key(char *dict, char a, char b);
+int		has_power(char *dict, int power);
+int		valid_keys(char *dict, int len);
 int		count(char *num);
 char	*skip_zeroes(char *num);
 int		is_power(char *num);

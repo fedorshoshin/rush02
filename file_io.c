@@ -49,3 +49,23 @@ char	*cr_str(char *path, int size)
 	close(fd);
 	return (buf);
 }
+
+char	*load_dict(char *path, int len)
+{
+	char	*dict;
+	int		size;
+
+	size = get_size(path);
+	if (size < 0)
+		return (NULL);
+	dict = cr_str(path, size);
+	if (!dict)
+		return (NULL);
+	if (count(dict) != size || !valid_format(dict)
+		|| !valid_keys(dict, len))
+	{
+		free(dict);
+		return (NULL);
+	}
+	return (dict);
+}
